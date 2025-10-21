@@ -40,35 +40,36 @@ async function sendFileMail(req, res) {
 }
 
 
-
 async function sendSICMail(req, res) {
-  try {
-      const transporter = nodemailer.createTransport({
-          host: process.env.SIC_EMAIL_HOST,
-          port: 465,
-          secure: true,
-          auth: {
-            user: process.env.SIC_EMAIL_USER,
-            pass: process.env.SIC_EMAIL_PASS
-          }
-        });
-
-
-      const mailOptions = {
-          from: `SIC Support <${process.env.SIC_EMAIL_USER}>`,
-          to: req.body.to,
-          subject: req.body.subject,
-          html: req.body.message
-      }
-
-      await transporter.sendMail(mailOptions)
-
-      res.status(200).json({ message: 'Email sent successfully' })
-  } catch (error) {
-      console.log(error)
-      res.status(500).json({ message: 'Email not sent' })
-  }
+    try {
+console.log("Sending email to ", req.body.to)        
+const transporter = nodemailer.createTransport({
+            host: process.env.SIC_EMAIL_HOST,
+            port: 465,
+            secure: true,
+            auth: {
+              user: process.env.SIC_EMAIL_USER,
+              pass: process.env.SIC_EMAIL_PASS
+            }
+          });
+      
+    
+        const mailOptions = {
+            from: `SIC Support <${process.env.SIC_EMAIL_USER}>`,
+            to: req.body.to,
+            subject: req.body.subject,
+            html: req.body.message
+        }
+        
+       const response= await transporter.sendMail(mailOptions)
+    console.log("RESPONS ",response)
+        res.status(200).json({ message: 'Email sent successfully' }) 
+    } catch (error) {
+	console.log(error)
+        res.status(500).json({ message: 'Email not sent' })
+    }
 }
+ 
 
 
 
@@ -154,7 +155,6 @@ async function sendMail(to, subject, text) {
 }
 
 
-
 // Example usage of sendFileMail
 /*
 const attachments = [
@@ -181,6 +181,5 @@ sendFileMail(
   }
 });
 */
-
  
-export { sendFileMail, sendMail, sendContratMail };
+export { sendFileMail, sendMail, sendContratMail, sendSICMail };
