@@ -1,27 +1,10 @@
-import pkg from "@whiskeysockets/baileys";
-import { useMultiFileAuthState } from "@whiskeysockets/baileys";
-const {
-    default: makeWASocket,
-    MessageType,
-    MessageOptions,
-    Mimetype,
-    DisconnectReason,
-    BufferJSON,
-    AnyMessageContent,
-    delay,
-    fetchLatestBaileysVersion,
-    isJidBroadcast,
-    makeCacheableSignalKeyStore,
-    makeInMemoryStore,
-    MessageRetryMap,
-    msgRetryCounterMap,
-  } = pkg;
+
+import { useMultiFileAuthState,   fetchLatestBaileysVersion,
+  isJidBroadcast,
+  makeWASocket,
+  } from "@whiskeysockets/baileys";
   //import os
   import { exec } from 'child_process';
-  
-  import pino from "pino";
-  const log = pino();
-  const { session } = { session: "baileys_auth_info" };
   import { fileURLToPath } from "url";
   import { dirname } from "path";
   const __filename = fileURLToPath(import.meta.url);
