@@ -1,4 +1,5 @@
 import pkg from "@whiskeysockets/baileys";
+import { useMultiFileAuthState } from "@whiskeysockets/baileys";
 const {
     default: makeWASocket,
     MessageType,
@@ -13,7 +14,6 @@ const {
     makeCacheableSignalKeyStore,
     makeInMemoryStore,
     MessageRetryMap,
-    useMultiFileAuthState,
     msgRetryCounterMap,
   } = pkg;
   //import os
