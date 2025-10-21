@@ -1,10 +1,11 @@
-const express = require('express');
-const router = express.Router();
-const waController = require('../whatsapp'); // Assurez-vous que le chemin est correct
-const mail = require('../mail');
+import express from 'express';
+import { Router } from 'express';
+const router = Router();
+import * as waController from '../whatsapp.js'; // Assurez-vous que le chemin est correct
+import * as mail from '../mail.js';
 
 // dans multer.js ou upload.js
-const multer = require('multer');
+import multer from 'multer';
 
 const storage = multer.memoryStorage(); // ✅ EN MÉMOIRE
 
@@ -30,4 +31,4 @@ router.post('/search-contact', waController.searchContact);
 // // Supprimer une sortie par ID
 // router.delete('/:id',authenticateToken, sortieController.deleteSortie);
 
-module.exports = router;
+export default router;

@@ -1,7 +1,7 @@
 
 
   // send text message to wa user
- exports.sendWaMessage= async (req, res, isConnected, sock) => {
+ export const sendWaMessage= async (req, res, isConnected, sock) => {
 //  launch().then(() => console.log('Whatsapp launched')).catch((err) => console.log(err));
 
     console.log(req.body);

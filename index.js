@@ -1,20 +1,27 @@
-require('dotenv').config();
-const http = require('http');
-const debug = require('debug')('blog-api:server');
+import dotenv from 'dotenv';
+dotenv.config();
+import { createServer } from 'http';
+import debug from 'debug';
+const log = debug('blog-api:server');
 
-const createError = require('http-errors');
-const express = require('express');
-const path = require('path');
-const cors = require('cors');
+import createError from 'http-errors';
+import express from 'express';
+import path from 'path';
+import cors from 'cors';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
  
 const port = normalizePort(process.env.PORT || '3050');
 // routers
  
-const waController = require('./whatsapp'); // Assurez-vous que le chemin est correct
+import * as waController from './whatsapp.js'; // Assurez-vous que le chemin est correct
+import { Server } from 'socket.io';
+import waRouter from './routes/whatsapp.js';
 const app = express();
-const server = http.createServer(app);
-const io = require("socket.io")(server);
-const waRouter = require('./routes/whatsapp');
+const server = createServer(app);
+const io = new Server(server);
  
 
 
@@ -78,7 +85,7 @@ function onListening() {
   const bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  debug('Listening on2 ' + bind);
+  log('Listening on2 ' + bind);
   console.log(' Listening on ' + bind);
   console.log('http://localhost:' + addr.port);
   console.log("addr : ", addr);

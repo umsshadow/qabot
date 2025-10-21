@@ -1,3 +1,4 @@
+import pkg from "@whiskeysockets/baileys";
 const {
     default: makeWASocket,
     MessageType,
@@ -14,28 +15,37 @@ const {
     MessageRetryMap,
     useMultiFileAuthState,
     msgRetryCounterMap,
-  } = require("@whiskeysockets/baileys");
+  } = pkg;
   //import os
-  const { exec } = require('child_process');
+  import { exec } from 'child_process';
   
-  const log = (pino = require("pino"));
+  import pino from "pino";
+  const log = pino();
   const { session } = { session: "baileys_auth_info" };
-  const { Boom } = require("@hapi/boom");
-  const path = require("path");
-  const fs = require("fs");
-  const express = require("express");
-  const cors = require("cors");
-  const bodyParser = require("body-parser");
-  const app = require("express")();
+  import { fileURLToPath } from "url";
+  import { dirname } from "path";
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
+  import { Boom } from "@hapi/boom";
+  import path from "path";
+  import fs from "fs";
+  import express from "express";
+  import cors from "cors";
+  import bodyParser from "body-parser";
+  const app = express();
   
   app.use(cors());
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
-  const server = require("http").createServer(app);
-  const io = require("socket.io")(server);
+  import { createServer } from "http";
+  const server = createServer(app);
+  import { Server } from "socket.io";
+  const io = new Server(server);
   const port = process.env.PORT || 8002;
-  const qrcode = require("qrcode");
-const { sendWaMessage } = require("./wa-message");
+  import qrcode from "qrcode";
+  import axios from "axios";
+  import os from "os";
+import { sendWaMessage } from "./wa-message.js";
   
   
   app.get("/scan", (req, res) => {
@@ -45,14 +55,14 @@ const { sendWaMessage } = require("./wa-message");
   });
 
 
-  exports.scanFile = async (req, res) => {
+  export const scanFile = async (req, res) => {
     res.sendFile("./client/server.html", {
         root: __dirname,
       });
      
     };
 
-    exports.startSocket = async (socket) => {
+    export const startSocket = async (socket) => {
     //  console.log("START SOCKET")
         soket = socket;
         // console.log(sock)
@@ -74,11 +84,10 @@ const { sendWaMessage } = require("./wa-message");
 
 
 
-    exports.removeSession = async (req, res) => {
+    export const removeSession = async (req, res) => {
          
             //delete baileys_auth_info folder
             const pathBaileys = path.join(__dirname,  "baileys_auth_info");
-            const os = require('os');
             const platform = os.platform();
             const deleteCommand = platform === 'win32' ? 'rmdir /s /q baileys_auth_info' : 'rm -rf baileys_auth_info';
             
@@ -120,7 +129,7 @@ const { sendWaMessage } = require("./wa-message");
         }
        
     }
-    exports.launch = async (req, res) => {
+    export const launch = async (req, res) => {
         setTimeout(() => {
             connectToWhatsApp();
         },2000);
@@ -128,7 +137,7 @@ const { sendWaMessage } = require("./wa-message");
     };
 
   
-    exports.initFile = async (req, res) => {
+    export const initFile = async (req, res) => {
         res.sendFile("./client/index.html", {
             root: __dirname,
           });
@@ -144,9 +153,7 @@ const { sendWaMessage } = require("./wa-message");
     const { state, saveCreds } = await useMultiFileAuthState("baileys_auth_info");
     let { version, isLatest } = await fetchLatestBaileysVersion();
     sock = makeWASocket({
-      printQRInTerminal: true,
       auth: state,
-      logger: log({ level: "silent" }),
       version,
       shouldIgnoreJid: (jid) => isJidBroadcast(jid),
     });
@@ -241,14 +248,14 @@ const { sendWaMessage } = require("./wa-message");
 
 
   // send text message to wa user
- exports.sendMessage= async (req, res) =>sendWaMessage(req, res, isConnected, sock);
+  export const sendMessage= async (req, res) =>sendWaMessage(req, res, isConnected, sock);
 
 
 
 
 
 
-  exports.checkNumber = async (req, res) => {
+  export const checkNumber = async (req, res) => {
     try {
       console.log("CHECK NUMBER ",req.body)
       const number  = req.body.number;
@@ -317,8 +324,7 @@ const { sendWaMessage } = require("./wa-message");
 
 
 
-  exports.searchContact = async (req, res) => {
-    const axios = require('axios');
+  export const searchContact = async (req, res) => {
 
     const apiKey = '41cb95fe06ab15ee8729ed64fa32a9d40984e72bd83a798492229920dcaacc4e';
     const query = req.body.name;

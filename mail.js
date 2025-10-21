@@ -1,4 +1,4 @@
-const nodemailer = require('nodemailer');
+import nodemailer from 'nodemailer';
 
 async function sendFileMail(req, res) {
   try {
@@ -183,4 +183,4 @@ sendFileMail(
 */
 
  
-module.exports = { sendFileMail, sendMail, sendContratMail };
+export { sendFileMail, sendMail, sendContratMail };

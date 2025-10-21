@@ -2,6 +2,7 @@
   "name": "whatsap_api_sums",
   "version": "1.0.0",
   "description": "Send Whatsapp Message via this api",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
